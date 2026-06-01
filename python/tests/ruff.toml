@@ -1,0 +1,12 @@
+# Ruff config scoped to the test suite only.
+#
+# This file lives inside tests/ so it applies when linting these test files.
+# The original source modules (maze.py, astar.py, agent.py, main.py) live one
+# directory up and are intentionally NOT covered here; they must remain
+# byte-for-byte unchanged and are not linted by this project.
+
+target-version = "py313"
+line-length = 100
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B"]
