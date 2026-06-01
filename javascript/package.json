@@ -1,0 +1,14 @@
+{
+  "name": "a-star-maze-solver-web",
+  "version": "1.0.0",
+  "description": "Browser port of the A* maze solver: recursive-backtracking generation with A* pathfinding, rendered to a canvas.",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve ."
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukesarfas/A-Star-Maze-Algorithm-Solver.git"
+  }
+}
