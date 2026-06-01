@@ -62,7 +62,7 @@ portfolio piece and a teaching aid.
 | F7 | A maze is rendered and (on the showcase) auto-solving **on load** — never blank. |
 | F8 | Terminal states are explicit: "Solved (length N)" and "No path" (defensive). |
 | F9 | Embeddable applet variant that is self-contained and auto-loops for liveliness. |
-| F10 | Synced pseudocode panel beside the maze: the line of A* currently executing is highlighted as it plays (each expansion = pick → goal-test → mark explored → expand; **Step** advances one line). |
+| F10 | Collapsible algorithm panel beside the maze (hidden by default, expandable): shows the **full A\* step** (pop lowest-f, goal test, neighbour loop with g/h/f, push to open, mark explored) and highlights every line that runs at the current phase as it plays. Each expansion walks pick → goal → expand → close; **Step** advances one phase. |
 
 ## 5. Architecture
 
