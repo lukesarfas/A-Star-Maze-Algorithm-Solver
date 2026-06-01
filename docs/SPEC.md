@@ -56,8 +56,8 @@ portfolio piece and a teaching aid.
 | F1 | Generate a perfect maze via recursive backtracking; configurable odd size. |
 | F2 | Solve with A\* (Manhattan heuristic); reproduce the path a tick at a time. |
 | F3 | Render: walls, open cells, **explored**, **frontier**, **shortest path**, **start**, **goal**, current cell. |
-| F4 | Transport controls: **Play/Pause** (single toggle), **Step**, **New maze**. |
-| F5 | Config controls: **custom size** (any value, 11–501 cells per side), **speed** (slider). |
+| F4 | Transport controls: **Play/Pause** (single toggle), **Step**, **New maze** (generates a fresh maze *paused* — waits for Play), **Replay** (re-runs the current maze). |
+| F5 | Config controls: **custom size** (any value, 11–501 cells per side), **speed** (slider shown in **steps/second** — 1/s at the slow end up to a size-aware max). |
 | F6 | Live stats: nodes explored, frontier size, path length, status. |
 | F7 | A maze is rendered and (on the showcase) auto-solving **on load** — never blank. |
 | F8 | Terminal states are explicit: "Solved (length N)" and "No path" (defensive). |
