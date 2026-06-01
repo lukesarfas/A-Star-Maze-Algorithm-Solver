@@ -13,19 +13,32 @@
         <p>A maze carved with recursive backtracking, then solved with A* search.</p>
       </header>
 
-      <div class="controls">
+      <div class="controls" role="group" aria-label="Maze controls">
+        <button id="play-pause" type="button" aria-pressed="false">Play</button>
+        <button id="step" type="button">Step</button>
         <button id="new-maze" type="button">New maze</button>
         <label for="speed">Speed</label>
-        <input id="speed" type="range" min="1" max="40" value="6" />
+        <input id="speed" type="range" min="1" max="40" value="6" aria-label="Animation speed" />
       </div>
 
-      <canvas id="maze" width="640" height="640" aria-label="A* maze solver visualisation"></canvas>
+      <canvas
+        id="maze"
+        width="640"
+        height="640"
+        role="img"
+        tabindex="0"
+        aria-label="A* maze solver visualisation: walls, explored cells, the live search frontier, and the shortest path from start to goal."
+      ></canvas>
 
-      <ul class="legend">
-        <li><span class="swatch swatch--start"></span>Start</li>
-        <li><span class="swatch swatch--goal"></span>Goal</li>
-        <li><span class="swatch swatch--seen"></span>Explored</li>
-        <li><span class="swatch swatch--path"></span>Shortest path</li>
+      <div id="a11y-status" class="visually-hidden" role="status" aria-live="polite"></div>
+
+      <ul class="legend" aria-label="Colour legend">
+        <li><span class="swatch swatch--start" aria-hidden="true"></span>Start</li>
+        <li><span class="swatch swatch--goal" aria-hidden="true"></span>Goal</li>
+        <li><span class="swatch swatch--frontier" aria-hidden="true"></span>Frontier</li>
+        <li><span class="swatch swatch--seen" aria-hidden="true"></span>Explored</li>
+        <li><span class="swatch swatch--path" aria-hidden="true"></span>Shortest path</li>
+        <li><span class="swatch swatch--wall" aria-hidden="true"></span>Wall</li>
       </ul>
     </main>
 

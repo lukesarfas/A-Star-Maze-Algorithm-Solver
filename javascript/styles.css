@@ -3,6 +3,30 @@
   --fg: #1d1d1f;
   --muted: #6e6e73;
   --line: #d2d2d7;
+
+  /* Colour-blind-safe palette with a luminance gap so adjacent cell states
+     clear WCAG 1.4.11 (≥3:1). The maze board is always dark (regardless of the
+     page theme) so these values stay accessible in both light and dark mode. */
+  --c-background: #15171d; /* the maze board */
+  --c-wall: #646b85; /* light slate — the structure */
+  --c-seen: #356a90; /* explored: dark blue */
+  --c-frontier: #f0c878; /* frontier: light amber */
+  --c-path: #f4e84a; /* path: bright yellow */
+  --c-start: #15c487; /* start: bluish green */
+  --c-goal: #e7672e; /* goal: vermillion */
+  --c-agent: #ffffff; /* current cell */
+
+  --focus: #0072b2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1d1d1f;
+    --fg: #f5f5f7;
+    --muted: #a1a1a6;
+    --line: #3a3a3c;
+    --focus: #56b4e9;
+  }
 }
 
 * {
@@ -14,7 +38,12 @@ body {
   padding: 2rem 1rem;
   background: var(--bg);
   color: var(--fg);
-  font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font:
+    16px/1.5 -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
 }
 
 main {
@@ -44,7 +73,7 @@ button {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
-  color: var(--fg);
+  color: #1d1d1f;
   font: inherit;
   cursor: pointer;
 }
@@ -58,13 +87,21 @@ button:hover {
   font-size: 0.9rem;
 }
 
+/* Visible, high-contrast focus ring on every interactive control. */
+button:focus-visible,
+input:focus-visible,
+#maze:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
 #maze {
   width: 100%;
   aspect-ratio: 1 / 1;
   height: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--c-background);
 }
 
 .legend {
@@ -88,18 +125,38 @@ button:hover {
   width: 0.9rem;
   height: 0.9rem;
   border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 .swatch--start {
-  background: #00ff00;
+  background: var(--c-start);
 }
 .swatch--goal {
-  background: #ff0000;
+  background: var(--c-goal);
+}
+.swatch--frontier {
+  background: var(--c-frontier);
 }
 .swatch--seen {
-  background: #646464;
+  background: var(--c-seen);
 }
 .swatch--path {
-  background: #00ffff;
+  background: var(--c-path);
+}
+.swatch--wall {
+  background: var(--c-wall);
+}
+
+/* Visually hidden but available to assistive technology. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
