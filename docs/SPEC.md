@@ -57,7 +57,7 @@ portfolio piece and a teaching aid.
 | F2 | Solve with A\* (Manhattan heuristic); reproduce the path a tick at a time. |
 | F3 | Render: walls, open cells, **explored**, **frontier**, **shortest path**, **start**, **goal**, current cell. |
 | F4 | Transport controls: **Play/Pause** (single toggle), **Step**, **New maze**. |
-| F5 | Config controls: **size** (21/31/41/51), **speed** (slider, human labels). |
+| F5 | Config controls: **custom size** (any value, 11–501 cells per side), **speed** (slider). |
 | F6 | Live stats: nodes explored, frontier size, path length, status. |
 | F7 | A maze is rendered and (on the showcase) auto-solving **on load** — never blank. |
 | F8 | Terminal states are explicit: "Solved (length N)" and "No path" (defensive). |
@@ -77,20 +77,30 @@ Faithfulness is verified by test: on an identical grid, the JS search must
 produce the **same path and the same node-expansion count** as `python/astar.py`.
 
 ### 5.2 Showcase renderer (product)
-The deployed showcase (`apps/maze` in the monorepo) reuses the **algorithm core
-verbatim** (`maze.js`, `astar.js`, `agent.js` vendored from this repo) but uses
-a product-grade renderer with the following model:
+The deployed showcase (`apps/maze` in the monorepo) uses an **optimised variant**
+of the same algorithm so it can scale to large, custom maze sizes (up to
+501×501 ≈ 250k cells), where the faithful linear-scan port would hang. It
+produces the same optimal shortest path (unique in a perfect maze). Model:
 
+- **Typed-array maze + heap-based A\*.** Generation and search run on flat typed
+  arrays with a binary-heap open set (lazy deletion) — O(E log V), not the
+  faithful port's O(n²) list scans.
 - **Precompute, then play back.** Run the search to completion immediately,
-  recording the ordered event log (each settled node, the frontier snapshot
-  cadence, and the final path). Animation is pure playback of that log. This
-  makes pause/step instant, frames cheap, and guarantees a result exists before
-  the first frame (no mid-animation surprises / crashes).
-- **Single `requestAnimationFrame` loop**, advancing N steps/frame for speed
-  (never `setInterval`).
+  recording the cell expansion order, discovery order, and the final path.
+  Animation is pure playback of that log: pause/step are instant, a result is
+  guaranteed before the first frame, and there are no mid-animation crashes.
+- **Offscreen ImageData renderer.** Cells are written to a 1px-per-cell offscreen
+  buffer scaled crisply onto the display canvas; a frame costs ~O(changed cells),
+  not O(grid), so even 501×501 animates smoothly.
+- **Single `requestAnimationFrame` loop**, steps/frame auto-scaled to the maze
+  size (so huge mazes finish in a few seconds) and the speed control (never
+  `setInterval`).
 - **HiDPI**: scale the backing store by `devicePixelRatio`; re-layout on resize.
-- Colours come from CSS custom properties so themes and the colour-blind-safe
-  palette swap in one place.
+- Start/goal are drawn as outlined markers with a minimum size so they stay
+  visible at any maze size. Colours come from CSS custom properties.
+
+The faithful, 1:1 port stays in this repo (`javascript/`) as the reference
+implementation and is what the parity test (§5.1) verifies.
 
 ## 6. UX requirements
 (See [docs/UX.md](UX.md) for rationale and sources.)
@@ -161,7 +171,9 @@ a product-grade renderer with the following model:
   Verified: showcase ≈ 37 KB and applet ≈ 26 KB of HTML+CSS+JS (raw, pre-gzip) —
   comfortably within budget.
 - First maze painted **< 1s** on a mid-tier laptop; interaction within one click.
-- Animation holds ~60fps for sizes ≤ 51×51 (frames < 16ms).
+- Custom sizes up to **501×501** (≈250k cells) generate, solve, and begin
+  animating without blocking the UI. Verified: a 501×501 maze precomputes in
+  ~50ms and the full solve animates in ~2s; frame cost is O(changed cells).
 
 ## 12. Definition of Done (the ship bar)
 Gates run in two places: the **canonical repo CI** (`.github/workflows/ci.yml`
