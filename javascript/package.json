@@ -17,12 +17,12 @@
     "url": "git+https://github.com/lukesarfas/A-Star-Maze-Algorithm-Solver.git"
   },
   "devDependencies": {
-    "@axe-core/playwright": "4.11.3",
+    "@axe-core/playwright": "4.12.1",
     "@eslint/js": "10.0.1",
-    "@playwright/test": "1.60.0",
-    "@vitest/coverage-v8": "4.1.8",
-    "eslint": "10.4.1",
-    "prettier": "3.8.3",
-    "vitest": "4.1.8"
+    "@playwright/test": "1.61.1",
+    "@vitest/coverage-v8": "4.1.9",
+    "eslint": "10.6.0",
+    "prettier": "3.9.3",
+    "vitest": "4.1.9"
   }
 }
